@@ -31,6 +31,7 @@ The sharding procedure is explained in Part 1, Point 4, but the I will now expla
 
 ### 3)
 
+
 ### 4)
 
 ### 5)
@@ -55,7 +56,7 @@ If I would publish to consul I would use this format:
 mysimbdp-dataingest needs now to get the address of the correct user. mysimbdp-dataingest now takes the service list from consul service discovery and then gets the correct address and then calls the API of mysimbdp-coredms with the adress.
 
 ### 4)
-mysimbdp-dataingest would now must take the data from the mysimbdp-daas directly and ingest it immediately instead of taking the data from a file and batch ingest it. It must also return error messages and some kind of success message back to the mysimbdp-daas so mysimbdp-daas can send a message back to the customer.
+mysimbdp-dataingest would now take the data from the mysimbdp-daas directly and ingest it immediately instead of taking the data from a file and batch ingest it. It must also return error messages and some kind of success message back to the mysimbdp-daas so mysimbdp-daas can send a message back to the customer.
 
 ### 5)
-I would firstly limit the maximum document size in mysimbdp-coredms and then I would throttle the amount of calls from an IP to mysimbdp-coredms with some kind of middleware that checks how many calls an IP address does to mysimbdp-coredms.  
+I would firstly limit the maximum document size in mysimbdp-coredms, so the tenant's ingestion program doesn't ingest a document that takes a long time to ingest and then I would throttle the amount of calls from a tenant to mysimbdp-daas, this limits the amount of times their ingestion program will be able to run.  
