@@ -55,4 +55,7 @@ If I would publish to consul I would use this format:
 mysimbdp-dataingest needs now to get the address of the correct user. mysimbdp-dataingest now takes the service list from consul service discovery and then gets the correct address and then calls the API of mysimbdp-coredms with the adress.
 
 ### 4)
-mysimbdp-dataingest
+mysimbdp-dataingest would now must take the data from the mysimbdp-daas directly and ingest it immediately instead of taking the data from a file and batch ingest it. It must also return error messages and some kind of success message back to the mysimbdp-daas so mysimbdp-daas can send a message back to the customer.
+
+### 5)
+I would firstly limit the maximum document size in mysimbdp-coredms and then I would throttle the amount of calls from an IP to mysimbdp-coredms with some kind of middleware that checks how many calls an IP address does to mysimbdp-coredms.  
