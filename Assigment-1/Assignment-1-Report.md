@@ -3,7 +3,7 @@
 ## Part 1 - Design 
 
 ### 1)
-I choose to focus on the COVID datasets because it is now topical and seemed the most interesting. I for this assignemnt I chosen to use the [EU dataset]().
+I choose to focus on the COVID datasets because it is now topical and seemed the most interesting. I for this assignment I chosen to use the [EU dataset]().
 
 I have chosen to use MongoD for my platform. The main reason I choose MongoDB for the mysimbdp-coredms component is the flexibility in schema it provides. This is important for the COVID datasets because there are various types of datasets which stores different types of data. For instance there are datasets which shows the daily and weekly new cases and deaths and there are datasets which show hospital admission rates, both of which have different schemas.  Other reasons for using MongoDB is that it seem quite popular and therefore there exists support when I run into trouble, and lastly there is python package for MongoDB which is my programming language of choice.
 
@@ -27,12 +27,17 @@ I would scale mysimbdp horizontally by creating more shard replica sets for mysi
 In MongoDB there exists databases and collections. In my datastructure there exists only one MongoDB database on mysimbdp-coredms but the customers can create different collections. MongoDB has a document-oriented model and essentially any JSON document can be uploaded. For this assignment I assume each customer will want a collection of their own for each dataset and not have two different types of datasets in one collection. Each document in a collection is an entry in a dataset. 
 
 ### 2)
-The sharding procedure is explained in Part 1, Point 4, but the I will now explain which sharding key I and sharding method, (hashed vs non-hashed sharding,) I used for this assignment. For the EU data I have chosen the sharding key "country" and to use non-hashed sharding as there are many countries, create a suitable range and is field that exists in most COVID datasets. I think hashed sharding would be more useful when there are a lot of options for the value of the field and for fields such as the date of data taken as the range would grow larger every day it is taken.
+The sharding procedure is explained in Part 1, Point 4, but the I will now explain which sharding key I and sharding method, (hashed vs non-hashed sharding,) I used for this assignment. For the EU data I have chosen the sharding key "cases_weekly" and to use non-hashed sharding as there are many countries, create a suitable range and is field that exists in most COVID datasets. I think hashed sharding would be more useful when there are a lot of options for the value of the field and for fields such as the date of data taken as the range would grow larger every day it is taken.
 
 ### 3)
+First of all MongoDB docker containers implementation is based on this repository https://github.com/chefsplate/mongo-shard-docker-compose. I modified it a bit to make it work for my purposes. For this test I assumed that all of the users used the same data and the same collection, with the same sharding. For this test I have created 1, 5, 10, 25, 50, 100 containers that call the MongoDB router simultaneously. All of the containers being on the same machine could limit the MongoDB cluster's performance. 
 
+My ingestion code just reads the EU covid data and inserts the data 100 documents at a time. The limit is there to limit the amount of data one producer can insert at a time. If an error is returned, the code will record into the errors.txt file and the code also takes the time it took to insert all of the data into the database and saves it into response_time.txt. After all of the ingestions are run, the host computer copies the files from the containers onto the host computer. After that a script just compile all of the data into one file. 
+
+MongoDB has a consistency option that makes sure that a majority of the nodes in a replica set has the documents inserted. I will test with the option enabled and not disabled.
 
 ### 4)
+
 
 ### 5)
 
