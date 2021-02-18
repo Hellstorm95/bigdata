@@ -37,7 +37,7 @@ My ingestion code just reads the EU covid data and inserts the data 100 document
 MongoDB has a consistency option that makes sure that a majority of the nodes in a replica set has the documents inserted. I will test with the option enabled and not disabled.
 
 ### 4)
-![The response time vs. concurrent ingestions]( "Title")
+![The response time vs. concurrent ingestions](../logs/response_time.png "Performance of platform")
 
 
 ### 5)
