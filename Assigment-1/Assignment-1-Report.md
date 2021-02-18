@@ -37,10 +37,12 @@ My ingestion code just reads the EU covid data and inserts the data 100 document
 MongoDB has a consistency option that makes sure that a majority of the nodes in a replica set has the documents inserted. I will test with the option enabled and not disabled.
 
 ### 4)
+![The response time vs. concurrent ingestions]( "Title")
 
 
 ### 5)
-Multiple concurrent users definitely increase the response time, but there was no error and the response time only grows linearly depending on concurrent users so I would say that the design of the platform worked pretty well. I think the reason for my platform working without errors is that even with high numbers of concurrent users is that it shares the load between the shards and the ingestion only writes a certain amount of documents into the shards so mysimbdp-coredms is not overloaded. The response time is not really good but to reduce the response time more I would add more routers and shards so split the load. Because there were error and the response time was alright, with the deployment enviroment in mind, I cannot see any reason why this design would not work when scaled up.
+
+
 
 ## Part 3 - Extension 
 
