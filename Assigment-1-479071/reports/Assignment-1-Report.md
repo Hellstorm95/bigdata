@@ -39,9 +39,16 @@ MongoDB has a consistency option that makes sure that a majority of the nodes in
 ### 4)
 ![The response time vs. concurrent ingestions](../logs/response_time.png "Performance of platform")
 
+As can be seen from the graph, without option grows much less accrding to the number of concurrent users. Without the option the response time grows linearly. 
+
+With 100 concurrent users and with the option I got these kind of error messages:
+
+batch op errors occurred, full error: {'writeErrors': [{'index': 0, 'code': 133, 'codeName': 'FailedToSatisfyReadPreference', 'errmsg': 'Write results unavailable from failing to target a host in the shard shard02 :: caused by :: Could not find host matching read preference { mode: "primary" } for set shard02', 'op': {'dateRep': '08/02/2021', 'year_week': '2021-05', 'cases_weekly': 1004, 'deaths_weekly': 92, 'countriesAndTerritories': 'Zimbabwe', 'geoId': 'ZW', 'countryterritoryCode': 'ZWE', 'popData2019': 14645473, 'continentExp': 'Africa', 'notification_rate_per_100000_population_14-days': '22.07', '_id': ObjectId('602dbdd99a05d42837975235')}}], 'writeConcernErrors': [], 'nInserted': 0, 'nUpserted': 0, 'nMatched': 0, 'nModified': 0, 'nRemoved': 0, 'upserted': []}
+
+The error seem to stem from that no node could be targeted for the writing, suggesting that the nodes are overloaded when it tries to fulfill the majority concistency option.
 
 ### 5)
-
+Every error message seem to occur for shard 2, therefore I would change the sharding tactic so that it does not write to shard 2 all the time and overload that shard cluster. Otherwise the design seem to perform pretty well as the response time grows linearly, and considering that only one shard seems to be used right now I think I can increase performance by using a better sharding strategy.  
 
 
 ## Part 3 - Extension 
