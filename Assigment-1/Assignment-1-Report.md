@@ -3,7 +3,7 @@
 ## Part 1 - Design 
 
 ### 1)
-I choose to focus on the COVID datasets because it is now topical and seemed the most interesting. I for this assignment I chosen to use the [EU dataset]().
+I choose to focus on the COVID datasets because it is now topical and seemed the most interesting. I for this assignment I chosen to use the [EU dataset](https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data) about 2.2MB large.
 
 I have chosen to use MongoD for my platform. The main reason I choose MongoDB for the mysimbdp-coredms component is the flexibility in schema it provides. This is important for the COVID datasets because there are various types of datasets which stores different types of data. For instance there are datasets which shows the daily and weekly new cases and deaths and there are datasets which show hospital admission rates, both of which have different schemas.  Other reasons for using MongoDB is that it seem quite popular and therefore there exists support when I run into trouble, and lastly there is python package for MongoDB which is my programming language of choice.
 
@@ -40,7 +40,7 @@ MongoDB has a consistency option that makes sure that a majority of the nodes in
 
 
 ### 5)
-
+Multiple concurrent users definitely increase the response time, but there was no error and the response time only grows linearly depending on concurrent users so I would say that the design of the platform worked pretty well. I think the reason for my platform working without errors is that even with high numbers of concurrent users is that it shares the load between the shards and the ingestion only writes a certain amount of documents into the shards so mysimbdp-coredms is not overloaded. The response time is not really good but to reduce the response time more I would add more routers and shards so split the load. Because there were error and the response time was alright, with the deployment enviroment in mind, I cannot see any reason why this design would not work when scaled up.
 
 ## Part 3 - Extension 
 
