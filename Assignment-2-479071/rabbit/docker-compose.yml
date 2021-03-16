@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+    rabbit-server:
+        image: rabbitmq
+        ports:
+          - 5672:5672
+          - 15672:15672
+    client:
+        image: ingestion
+        tty: true 
+        deploy:
+            replicas: 1
