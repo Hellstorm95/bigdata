@@ -1,5 +1,0 @@
-redis
-rq
-pymongo
-dnspython
-rq-dashboard

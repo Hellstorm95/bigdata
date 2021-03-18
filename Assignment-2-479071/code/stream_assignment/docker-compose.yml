@@ -1,0 +1,132 @@
+version: "3.9"
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  flask_service:
+    image: stream_api
+    volumes:
+      - ./IngestionApp:/app
+      - ./data:/data
+    ports:
+      - "56733:80"
+    networks:
+      - app-tier
+      
+  rabbit-server:
+    image: rabbitmq:3-management-alpine
+    ports:
+     - 5672:5672
+     - 15672:15672
+    volumes:
+     - ./data:/data
+    networks:
+     - app-tier
+      
+  client1:
+    image: stream_ingestion1
+    tty: true 
+    networks:
+      - app-tier
+    volumes:
+      - ./data:/data
+      
+  client2:
+    image: stream_ingestion2
+    tty: true 
+    networks:
+      - app-tier
+    volumes:
+      - ./data:/data  
+      
+  ## Config Servers
+  config01:
+    image: mongo
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+  config02:
+    image: mongo
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+  config03:
+    image: mongo
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+
+  ## Shards
+  shard01a:
+    image: mongo
+    command: mongod --port 27018 --shardsvr --replSet shard01
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+  shard01b:
+    image: mongo
+    command: mongod --port 27018 --shardsvr --replSet shard01
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+  shard02a:
+    image: mongo
+    command: mongod --port 27019 --shardsvr --replSet shard02 
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+  shard02b:
+    image: mongo
+    command: mongod --port 27019 --shardsvr --replSet shard02
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+  shard03a:
+    image: mongo
+    command: mongod --port 27020 --shardsvr --replSet shard03
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+  shard03b:
+    image: mongo
+    command: mongod --port 27020 --shardsvr --replSet shard03
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+
+  ## Router
+  router:
+    image: mongo
+    command: mongos --port 27017 --configdb configserver/config01:27017,config02:27017,config03:27017 --bind_ip_all
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./scripts:/scripts
+    networks:
+      - app-tier
+    depends_on:
+      - config01
+      - config02
+      - config03
+      - shard01a
+      - shard01b
+      - shard02a
+      - shard02b
+      - shard03a
+      - shard03b
+   
+
