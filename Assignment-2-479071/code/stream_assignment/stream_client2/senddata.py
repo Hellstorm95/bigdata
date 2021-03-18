@@ -27,7 +27,7 @@ for item in parsed_json["records"]:
 
 connection.close()
 
-time.sleep(500)
+time.sleep(1000)
 
 url = 'http://flask_service:80/stop'
 user = {'user': 'user2'}

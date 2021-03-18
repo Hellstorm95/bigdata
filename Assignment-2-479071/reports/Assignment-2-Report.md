@@ -62,7 +62,15 @@ In this config file the maximum amount of messages is 500 and the maximum data s
 For a user to use the platform, the user needs to call the API stream-api to start a queue and a consumer. The user posts clientstreamingestapp and the api creates a queue and a consumer for the clientstreamingestapp. The user then send messages to the queue to ingest the data and call the API to stop the consumer and the queue. clientstreamingestapp has to work as a callback function for a rabbitMQ, meaning it has to take four arguments ch, method, properties, body and it does not return anything.
 
 ### 3)
-clientstreamingestapp just takes the body of the message which is a json document and ingest it immediately into the mongo server. For the test I have two users with the same clientstreamingestapp. They both ingest a 4.3MB json file one item at a time, meaning there is a for loop going through the file sending an item to the RabbitMQ queue. My test enviroment is my personal laptop and I use docker compose to test the solution. 
+clientstreamingestapp just takes the body of the message which is a json document and ingest it immediately into the mongo server. For the test I have two users with the same clientstreamingestapp. They both ingest a 4.3MB json file one item at a time, meaning there is a for loop going through the file sending an item to the RabbitMQ queue. My test enviroment is my personal laptop and I use docker compose to test the solution. Logs of the test run can be found in the logs directory. Both individual user logs and the combined logs. I also took a couple of screenshots from the RabbitMQ dashboard showing the message rates and the amounts of queued messages.
+
+Here are the screenshots:
+
+![Screenshot3](../logs/Screenshot3 "Screenshot of queue in the beginning")
+
+![Screenshot4](../logs/Screenshot4 "Screenshot in the middle of the running")
+
+![Screenshot5](../logs/Screenshot5 "Screenshot of empty queue")
 
 ### 4)
 clientstreamingestapp saves the amount of messages, the average ingestion times and the total data size within a 5 seconds time interval. clientstreamingestapp calls the stream-api every five seconds in order to log the stats. If the clientstreamingestapp gets an error, the error is sent to be logged with the stream-api.

@@ -117,11 +117,11 @@ def log():
         if messages > 400:
             thread = threading.Thread(target=start_consumer, args=(user,True,), daemon=True)
             thread.start()
-        if messages < 40:
+        if messages < 10:
             f = open(user + "/tags.txt", "r")
             lines = f.readlines()
             f.close()
-            if len(lines) >= 2:
+            if len(lines) > 3:
                 connection = pika.BlockingConnection(pika.ConnectionParameters('rabbit-server'))
                 channel = connection.channel()
                 channel.basic_cancel(lines[-2])

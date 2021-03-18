@@ -13,7 +13,7 @@ sudo docker-compose exec router sh -c "mongo < /scripts/init-router.js"
 sleep 5
 sudo docker exec -d stream_assignment_client1_1 python3 senddata.py
 sudo docker exec -d stream_assignment_client2_1 python3 senddata.py
-sleep 510
+sleep 1010
 
 sudo docker-compose down
 sudo docker rm -f $(docker ps -a -q)
