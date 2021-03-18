@@ -29,9 +29,9 @@ Every tenant has an own directory for their ingestion script and the staged file
 
 With 3 workers the the whole ingestion of 10 files took a little bit over 2 minutes. To improve the performance more workers could be added and queues for different priority tasks could be added. Here is a couple of screenshot showing the redis queued jobs and the workers from the redis dashboard.
 
-![Screenshot1](../logs/Screenshot1 "Screenshot of queue in the beginning")
+![Screenshot1](../logs/Screenshot1.png "Screenshot of queue in the beginning")
 
-![Screenshot2](../logs/Screenshot2 "Screenshot of almost empty queue")
+![Screenshot2](../logs/Screenshot2.png "Screenshot of almost empty queue")
 
 ### 5)
 In order to log the ingestions the client ingestion script is nested in another logging script that takes the output from the client script and takes the time for the ingestion script and logs it into the correct directory. The logging script also saves to general log which stores ingestion stats from all of the users. The logging script is the actual script which is input to the redis queue. The logs can found in the logs directory. I created a simple script that calculates the average runtime for clientbatchapp for both user individually and overall. Here are the results:
@@ -66,11 +66,11 @@ clientstreamingestapp just takes the body of the message which is a json documen
 
 Here are the screenshots:
 
-![Screenshot3](../logs/Screenshot3 "Screenshot of queue in the beginning")
+![Screenshot3](../logs/Screenshot3.png "Screenshot of queue in the beginning")
 
-![Screenshot4](../logs/Screenshot4 "Screenshot in the middle of the running")
+![Screenshot4](../logs/Screenshot4.png "Screenshot in the middle of the running")
 
-![Screenshot5](../logs/Screenshot5 "Screenshot of empty queue")
+![Screenshot5](../logs/Screenshot5.png "Screenshot of empty queue")
 
 ### 4)
 clientstreamingestapp saves the amount of messages, the average ingestion times and the total data size within a 5 seconds time interval. clientstreamingestapp calls the stream-api every five seconds in order to log the stats. If the clientstreamingestapp gets an error, the error is sent to be logged with the stream-api.
