@@ -130,6 +130,16 @@ def log():
                 for tag in lines[:-2]:
                     f.write(tag + "\n")
                 f.close()
+        if messages > app.config["MAX_NUMBER_OF_MESSAGES"] or tot_size > app.config["MAX_SIZE"]: 
+            connection = pika.BlockingConnection(pika.ConnectionParameters('rabbit-server'))
+            channel = connection.channel()
+            f = open(user + "/tags.txt", "r")
+            lines = f.readlines()
+            for tag in lines:
+                channel.basic_cancel(tag)
+            channel.queue_delete(queue=user)
+
+            connection.close()
 
         resp = jsonify({'message' : 'Successfully logged'})
         resp.status_code = 200

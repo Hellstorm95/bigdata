@@ -7,3 +7,4 @@ COPY requirements.txt /tmp
 COPY . ./
 #Install requirements
 RUN pip3 install -r /tmp/requirements.txt
+

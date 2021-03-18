@@ -15,6 +15,14 @@ services:
     networks:
       - app-tier
       
+  rq-dashboard:
+    image: rq_worker
+    command: rq-dashboard -H rq-server
+    ports:
+      - 9181:9181
+    networks:
+      - app-tier
+      
   rq-worker:
     image: rq_worker
     command: rq worker -u redis://rq-server:6379 queue
