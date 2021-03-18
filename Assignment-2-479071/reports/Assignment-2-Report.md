@@ -10,10 +10,13 @@ I think the most important things is to constrain the batch ingestion tenants is
 Here is the example config file for the API.
 
 class Config(object):
+
     MAX_NUMBER_OF_FILES = 10
+    
     MAX_FILE_SIZE = 4000000000
 
 class NormalConfig(Config):
+
     pass
     
 Here the user is allowed to ingest 10 files with a maximum size of 4GB in one ingestion. 
@@ -50,10 +53,13 @@ Each user has their directory for clientstreamingestapp, logs and the tags for e
 Here is how the config file looks like:
 
 class Config(object):
+
     MAX_NUMBER_OF_MESSAGES = 500
+    
     MAX_SIZE = 4000000000
 
 class NormalConfig(Config):
+
     pass
     
 In this config file the maximum amount of messages is 500 and the maximum data size in 5 seconds is 400MB. 
