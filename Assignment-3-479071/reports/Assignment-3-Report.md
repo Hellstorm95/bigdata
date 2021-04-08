@@ -3,7 +3,7 @@
 ## Part 1 - Design for streaming analytics
 
 ### 1)
-I have chosen the [BTS dataset](https://www.rabbitmq.com/ssl.html). 
+I have chosen the [BTS dataset](https://version.aalto.fi/gitlab/bigdataplatforms/cs-e4640/-/blob/master/data/bts/README.md). 
 Each station has an id, each station has sensors which measures different data and each sensor data has an id.
 If the value of a sensor goes over a threshold an alarm can be sent. Each alarm type has an id. 
 Each data row is representing an alarm which has been sent from a station, has included the station id, alarm id and the sensor id.
